@@ -1,0 +1,56 @@
+---
+title: "St Louis Data"
+output: github_document
+---
+
+```{r, setup, include=FALSE}
+library(nomnoml)
+```
+
+```{nomnoml Diagram, echo=FALSE}
+#stroke: #000
+#.box: fill=#8f8 dashed visual=ellipse
+
+
+[<actor>User] - [<usecase>Data]
+[<actor>User] - [<usecase>Maps]
+[<actor>User] - [<usecase>Trends]
+
+
+[<usecase>Data] - [<usecase> Web UI]
+[<usecase>Data] - [<usecase> REST API]
+
+[<usecase> REST API] - [<abstract> api.stldata.org]
+[<usecase> Web UI] - [<abstract> app.stldata.org]
+
+[<usecase>Maps] - [<abstract> app.stldata.org]
+[<usecase>Trends] - [<abstract> app.stldata.org]
+
+[<abstract> app.stldata.org] <- [<abstract> api.stldata.org]
+
+
+[<instance> AWS Medium 1 | 
+    Service:Cron |
+    Service: Gunicorn |
+    Service: Nginx
+  ] -> [<transceiver> Nginx (Proxy)]
+[<instance> AWS Medium 2 |
+    Service: Nginx] -> [<sender> Nginx]
+[<instance> AWS Aurora] -> [<database> Postgres;PostGIS]
+
+[<database> Postgres;PostGIS] -> [<package> Flask]
+[<package> Flask] -> [<package> Gunicorn]
+
+[<instance> AWS Medium 1] -> [<package> Cron]
+[<instance> AWS Medium 1] -> [<package> Gunicorn]
+[<package> Cron] -> [<package> Docker Scrapers]
+[<package> Docker Scrapers] -> [<database> Postgres;PostGIS]
+
+
+[<package> Gunicorn] -> [<transceiver> Nginx (Proxy)]
+[<transceiver> Nginx (Proxy)] <--> [<abstract> api.stldata.org]
+[<sender> Nginx] -> [<abstract> app.stldata.org]
+
+[<input> STL Open Data] -> [<package> Docker Scrapers]
+
+```
