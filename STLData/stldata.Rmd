@@ -48,7 +48,7 @@ library(nomnoml)
 
 
 [<package> Gunicorn] -> [<transceiver> Nginx (Proxy)]
-[<transceiver> Nginx (Proxy)] <--> [<abstract> api.stldata.org]
+[<transceiver> Nginx (Proxy)] <-> [<abstract> api.stldata.org]
 [<sender> Nginx] -> [<abstract> app.stldata.org]
 
 [<input> STL Open Data] -> [<package> Docker Scrapers]
