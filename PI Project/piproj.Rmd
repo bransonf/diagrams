@@ -1,0 +1,32 @@
+---
+title: "Pi Music Visualizer"
+output: github_document
+---
+
+```{r, setup, include=FALSE}
+library(nomnoml)
+```
+
+```{nomnoml Diagram, echo=FALSE}
+#stroke: #000
+#.box: fill=#8f8 dashed visual=ellipse
+
+[<instance> Raspberry Pi Zero W |
+   Service: Spotify Daemon |
+   Service: Python Script]
+
+
+[<instance> Raspberry Pi Zero W] <-> [<abstract> WiFi]
+[<instance> Raspberry Pi Zero W] -> [<abstract> Bluetooth]
+[<instance> Raspberry Pi Zero W] -> [<abstract> PI I/O Headers]
+
+[<abstract> WiFi] <--> [<usecase> Spotify Client]
+
+[<abstract> Bluetooth] -> [<usecase> Bluetooth Audio]
+
+[<abstract> PI I/O Headers] -> [<abstract> Individually Addressable LEDs]
+[<abstract> PI I/O Headers] --> [<abstract> USB DAC]
+
+
+
+```
